@@ -95,7 +95,7 @@ html,body{height:100%;font-family:var(--font-sans);background:var(--color-backgr
 .nav-cat.active{color:#fff;border-bottom-color:#5DCAA5}
 .col1-body{background:var(--color-background-secondary);border-right:0.5px solid var(--color-border-tertiary);overflow-y:auto}
 .col1-subhdr{padding:8px 12px;font-size:10px;font-weight:500;color:var(--color-text-tertiary);text-transform:uppercase;letter-spacing:0.05em;border-bottom:0.5px solid var(--color-border-tertiary)}
-.col2-body{background:var(--color-background-primary);border-right:0.5px solid var(--color-border-tertiary);overflow-y:auto;padding:12px}
+.col2-body{background:var(--color-background-primary);border-right:1.5px solid var(--color-border-primary);overflow-y:auto;padding:12px}
 .col3-body{background:var(--color-background-primary);overflow-y:auto;padding:14px}
 .bottom-section{display:grid;grid-template-columns:1fr 1fr;overflow:hidden}
 .bottom-panel{display:flex;flex-direction:column;overflow:hidden;padding:10px 14px}
@@ -133,7 +133,7 @@ html,body{height:100%;font-family:var(--font-sans);background:var(--color-backgr
 .cat-title{font-size:14px;font-weight:500;color:var(--color-text-primary);margin-bottom:1px}
 .cat-sub{font-size:11px;color:var(--color-text-tertiary);margin-bottom:10px}
 .pgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
-.pcard{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:10px;cursor:pointer;transition:border-color 0.15s,background 0.15s;display:flex;flex-direction:column}
+.pcard{background:var(--color-background-primary);border:1px solid var(--color-border-primary);border-radius:var(--border-radius-lg);padding:10px;cursor:pointer;transition:border-color 0.15s,background 0.15s;display:flex;flex-direction:column}
 .pcard:hover{border-color:var(--color-border-primary)}
 .pcard.selected{border:1.5px solid #1D9E75;background:#f0fbf6}
 .pcard.incart{border:1.5px solid #185FA5;background:#eef5fc}
@@ -174,6 +174,8 @@ html,body{height:100%;font-family:var(--font-sans);background:var(--color-backgr
 .camp-prod-list li.dynamic-item i{color:#854F0B}
 .camp-prod-list li.new-item{animation:fadeIn 0.6s ease}
 @keyframes fadeIn{from{opacity:0;transform:translateY(-5px)}to{opacity:1;transform:translateY(0)}}
+@keyframes metricPulse{0%{color:var(--color-text-primary)}50%{color:#1D9E75}100%{color:var(--color-text-primary)}}
+.metric-val.ticking{animation:metricPulse 0.4s ease}
 .camp-metrics{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:7px}
 .metric-box{background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:5px 8px}
 .metric-val{font-size:13px;font-weight:500;color:var(--color-text-primary)}
@@ -334,7 +336,7 @@ var PERSONAS=[
    safety:[{n:'Bear spray',ok:false},{n:'First aid kit',ok:false}],gearGap:'No backpack -- every backcountry trip requires borrowed gear',
    campTitle:'Summer Camping Essentials',campOppLabel:'Opportunity Detected',
    campOpp:'Backcountry pack and safety gear searches have increased 22% among Camping Enthusiasts over the past 7 days.',
-   campProds:['Osprey Atmos AG 65L','Adventure Medical Kit 2.0'],campRevenue:'$112K',campConv:'4.8%',campConf:'86%',audienceSize:'22,107',audienceLabel:'Safety-Gap Campers',
+   campProds:['Osprey Atmos AG 65L','Adventure Medical Kit 2.0'],campRevenue:'$112K',campConv:'4.8%',campRevenueInit:'$92K',campConvInit:'4.1%',campConf:'86%',audienceSize:'22,107',audienceLabel:'Safety-Gap Campers',
    varA:{label:'Group A -- Safety Gap',size:'12,800',concept:'Get Safe Out There',desc:'Targets campers with no first aid or bear protection. Urgency-led creative emphasizing responsible backcountry prep. Pairs safety kit bundle with introductory pack offer.',hero:'Adventure Medical Kit 2.0',revenue:'$58K',conv:'5.1%'},
    varB:{label:'Group B -- Gear Ready',size:'9,307',concept:'Level Up Your Kit',desc:'Targets campers who own safety gear but lack a quality pack. Aspiration-led creative showcasing the Osprey AG system as the natural next step for serious adventurers.',hero:'Osprey Atmos AG 65L',revenue:'$54K',conv:'4.4%'}},
   {id:'sofia',name:'Sofia R.',initials:'SR',category:'Cycling',cat:'cycling',ab:'#E6F1FB',ac:'#185FA5',age:29,loc:'Portland, OR',ltv:'$890',
@@ -344,7 +346,7 @@ var PERSONAS=[
    safety:[{n:'Flashing headlight',ok:false},{n:'Radar taillight',ok:false}],gearGap:'No hydration system for century training blocks',
    campTitle:'Summer Cycling Essentials',campOppLabel:'Opportunity Detected',
    campOpp:'Increased interest in hydration, safety, and endurance products among Cycling Enthusiasts over the past 7 days.',
-   campProds:['Garmin Varia RTL515','CamelBak Chase Vest'],campRevenue:'$148K',campConv:'5.2%',campConf:'89%',audienceSize:'12,841',audienceLabel:'High Value Cyclists',
+   campProds:['Garmin Varia RTL515','CamelBak Chase Vest'],campRevenue:'$148K',campConv:'5.2%',campRevenueInit:'$124K',campConvInit:'4.5%',campConf:'89%',audienceSize:'12,841',audienceLabel:'High Value Cyclists',
    varA:{label:'Group A -- Safety Gap',size:'7,900',concept:'Ride Visible, Ride Safe',desc:'Targets cyclists with no radar or lighting purchases. Safety-forward creative built around visibility and road confidence. Leads with Garmin Varia paired with Knog front light at 25% off.',hero:'Garmin Varia RTL515',revenue:'$84K',conv:'5.8%'},
    varB:{label:'Group B -- Safety Equipped',size:'4,941',concept:'Train Further, Go Faster',desc:'Targets cyclists who own safety gear and are ready to optimize. Performance-led creative around century training and endurance. Hero product is the CamelBak Chase Vest.',hero:'CamelBak Chase Vest',revenue:'$64K',conv:'4.4%'}},
   {id:'jordan',name:'Jordan P.',initials:'JP',category:'Water Sports',cat:'watersports',ab:'#FAEEDA',ac:'#854F0B',age:41,loc:'Seattle, WA',ltv:'$1,140',
@@ -354,7 +356,7 @@ var PERSONAS=[
    safety:[{n:'Dry storage bag',ok:true},{n:'Bilge pump',ok:true}],gearGap:'Ready to upgrade from fiberglass to carbon fiber paddle',
    campTitle:'Summer on the Water',campOppLabel:'Opportunity Detected',
    campOpp:'High-intent browsing of carbon paddles and drysuits among Watersports Customers has risen 31% over the past 7 days.',
-   campProds:['Werner Camano Carbon','Kokatat GORE-TEX Drysuit'],campRevenue:'$193K',campConv:'6.1%',campConf:'92%',audienceSize:'9,204',audienceLabel:'Active Paddlers',
+   campProds:['Werner Camano Carbon','Kokatat GORE-TEX Drysuit'],campRevenue:'$193K',campConv:'6.1%',campRevenueInit:'$161K',campConvInit:'5.3%',campConf:'92%',audienceSize:'9,204',audienceLabel:'Active Paddlers',
    varA:{label:'Group A -- Safety Gap',size:'3,800',concept:'Paddle Safer This Summer',desc:'Targets paddlers with incomplete safety kit. Pairs an upgraded PFD with dry storage, framing safety as enabling rather than limiting your time on the water.',hero:'NRS Zen PFD',revenue:'$72K',conv:'5.9%'},
    varB:{label:'Group B -- Gear Ready',size:'5,404',concept:'Upgrade Your Stroke',desc:'Targets paddlers with full safety kit ready to invest in performance. Carbon paddle upgrade framed as the single biggest improvement to touring speed and endurance.',hero:'Werner Camano Carbon',revenue:'$121K',conv:'6.3%'}},
   {id:'anika',name:'Anika L.',initials:'AL',category:'Snow Sports',cat:'snow',ab:'#EEEDFE',ac:'#534AB7',age:37,loc:'Salt Lake City, UT',ltv:'$2,200',
@@ -364,7 +366,7 @@ var PERSONAS=[
    safety:[{n:'Avalanche beacon',ok:true},{n:'Probe',ok:true},{n:'Shovel',ok:true}],gearGap:'Alpine skis are resort-only -- needs touring bindings and skins',
    campTitle:'Go Backcountry This Season',campOppLabel:'Opportunity Detected',
    campOpp:'Interest in touring and alpine equipment has increased 18% among High Value Snow Enthusiasts over the past 7 days.',
-   campProds:['Dynafit Radical ST2','Black Diamond Ascension Skins'],campRevenue:'$267K',campConv:'4.1%',campConf:'84%',audienceSize:'12,841',audienceLabel:'High Value Snow Enthusiasts',
+   campProds:['Dynafit Radical ST2','Black Diamond Ascension Skins'],campRevenue:'$267K',campConv:'4.1%',campRevenueInit:'$218K',campConvInit:'3.5%',campConf:'84%',audienceSize:'12,841',audienceLabel:'High Value Snow Enthusiasts',
    varA:{label:'Group A -- Safety Gap',size:'4,200',concept:'Earn Your Turns Safely',desc:'Targets backcountry-curious skiers without avi safety gear. Leads with beacon-probe-shovel bundle as the entry cost to the backcountry, then introduces touring bindings as the upgrade.',hero:'BCA Tracker4 Beacon Bundle',revenue:'$98K',conv:'4.5%'},
    varB:{label:'Group B -- Safety Ready',size:'8,641',concept:'Your Skis Are Holding You Back',desc:'Targets fully-equipped skiers whose gear is resort-only. Direct creative challenging them to take the next step. Hero is the Dynafit Radical ST2 binding with 20% off messaging.',hero:'Dynafit Radical ST2',revenue:'$169K',conv:'3.9%'}}
 ];
@@ -393,6 +395,30 @@ function updateHint(){
   h.textContent=need>0?(need+' more view'+(need!==1?'s':'')+' to trigger'):'';
 }
 
+function animateMetric(elId,fromVal,toVal,isRevenue){
+  var el=document.getElementById(elId);if(!el)return;
+  var fromNum=parseFloat(fromVal.replace(/[$K%]/g,''));
+  var toNum=parseFloat(toVal.replace(/[$K%]/g,''));
+  var steps=30,step=0,interval=30;
+  var timer=setInterval(function(){
+    step++;
+    var progress=step/steps;
+    var eased=1-Math.pow(1-progress,3);
+    var current=fromNum+(toNum-fromNum)*eased;
+    if(isRevenue){
+      el.textContent='$'+Math.round(current)+'K';
+    } else {
+      el.textContent=current.toFixed(1)+'%';
+    }
+    el.classList.add('ticking');
+    if(step>=steps){
+      clearInterval(timer);
+      el.textContent=toVal;
+      el.classList.remove('ticking');
+    }
+  },interval);
+}
+
 function checkTrigger(){
   if(!activePersona)return;
   var views=sessionEvents.filter(function(e){return e.t==='view'}).length;
@@ -405,6 +431,9 @@ function checkTrigger(){
       logAdd('Behavior signal: adding '+dynProd.name+' to campaign','learn');
       var list=document.querySelector('.camp-prod-list');
       if(list){var li=document.createElement('li');li.className='new-item dynamic-item';li.innerHTML='<i class="ti ti-plus"></i>'+dynProd.name;list.appendChild(li);}
+      var p=activePersona;
+      animateMetric('metric-revenue',p.campRevenueInit,p.campRevenue,true);
+      animateMetric('metric-conv',p.campConvInit,p.campConv,false);
     }
   }
   if(!modalFired&&(views>=3||carts>=1))fireModal();
@@ -440,15 +469,22 @@ function showExploreCampaigns(){
   ov.innerHTML='<div class="exp-box">'
     +'<button class="mclose" onclick="this.closest(\'.exp-modal-ov\').remove()" style="position:absolute;top:14px;right:14px;background:none;border:none;cursor:pointer;color:var(--color-text-tertiary);font-size:16px"><i class="ti ti-x"></i></button>'
     +'<div class="exp-title">'+p.campTitle+' -- Campaign Variants</div>'
-    +'<div class="exp-sub">'+p.audienceSize+' '+p.audienceLabel+' split by safety purchase history into two distinct creative treatments</div>'
+    +'<div style="background:var(--color-background-secondary);border:0.5px solid var(--color-border-secondary);border-radius:var(--border-radius-md);padding:8px 12px;margin-bottom:14px;font-size:11px;color:var(--color-text-secondary);line-height:1.55">Audience formed from 4,832 recent product interactions and 1,926 cart additions across <strong>'+p.audienceLabel+'</strong></div>'
     +'<div class="exp-grid">'
-    +'<div class="variant-card safety-var"><div class="var-label sv"><i class="ti ti-alert-triangle" style="font-size:10px"></i> '+p.varA.label+'</div><div><div class="var-size">'+p.varA.size+'</div><div class="var-size-lbl">customers</div></div><div class="var-concept">&ldquo;'+p.varA.concept+'&rdquo;</div><div class="var-desc">'+p.varA.desc+'</div><div class="var-hero"><i class="ti ti-star"></i>Hero: '+p.varA.hero+'</div><div class="var-metrics"><div class="var-metric"><div class="var-metric-val">'+p.varA.revenue+'</div><div class="var-metric-lbl">Proj. Revenue</div></div><div class="var-metric"><div class="var-metric-val">'+p.varA.conv+'</div><div class="var-metric-lbl">Proj. Conversion</div></div></div></div>'
-    +'<div class="variant-card perf-var"><div class="var-label pv"><i class="ti ti-trending-up" style="font-size:10px"></i> '+p.varB.label+'</div><div><div class="var-size">'+p.varB.size+'</div><div class="var-size-lbl">customers</div></div><div class="var-concept">&ldquo;'+p.varB.concept+'&rdquo;</div><div class="var-desc">'+p.varB.desc+'</div><div class="var-hero"><i class="ti ti-star"></i>Hero: '+p.varB.hero+'</div><div class="var-metrics"><div class="var-metric"><div class="var-metric-val">'+p.varB.revenue+'</div><div class="var-metric-lbl">Proj. Revenue</div></div><div class="var-metric"><div class="var-metric-val">'+p.varB.conv+'</div><div class="var-metric-lbl">Proj. Conversion</div></div></div></div>'
+    +'<div class="variant-card safety-var"><div class="var-label sv"><i class="ti ti-alert-triangle" style="font-size:10px"></i> '+p.varA.label+'</div><div><div class="var-size">'+p.varA.size+'</div><div class="var-size-lbl">customers</div></div><div class="var-concept">&ldquo;'+p.varA.concept+'&rdquo;</div><div class="var-desc">'+p.varA.desc+'</div><div class="var-hero"><i class="ti ti-star"></i>Hero: '+p.varA.hero+'</div><div class="var-metrics"><div class="var-metric"><div class="var-metric-val">'+p.varA.revenue+'</div><div class="var-metric-lbl">Projected Revenue</div></div><div class="var-metric"><div class="var-metric-val">'+p.varA.conv+'</div><div class="var-metric-lbl">Projected Conversion</div></div></div></div>'
+    +'<div class="variant-card perf-var"><div class="var-label pv"><i class="ti ti-trending-up" style="font-size:10px"></i> '+p.varB.label+'</div><div><div class="var-size">'+p.varB.size+'</div><div class="var-size-lbl">customers</div></div><div class="var-concept">&ldquo;'+p.varB.concept+'&rdquo;</div><div class="var-desc">'+p.varB.desc+'</div><div class="var-hero"><i class="ti ti-star"></i>Hero: '+p.varB.hero+'</div><div class="var-metrics"><div class="var-metric"><div class="var-metric-val">'+p.varB.revenue+'</div><div class="var-metric-lbl">Projected Revenue</div></div><div class="var-metric"><div class="var-metric-val">'+p.varB.conv+'</div><div class="var-metric-lbl">Projected Conversion</div></div></div></div>'
     +'</div>'
     +'<div class="exp-summary"><div class="exp-summary-title">Campaign Summary</div>'
     +'<div class="exp-sum-groups"><div class="exp-sum-group ga"><i class="ti ti-alert-triangle"></i>Group A: '+p.varA.size+' customers</div><div class="exp-sum-group gb"><i class="ti ti-trending-up"></i>Group B: '+p.varB.size+' customers</div></div>'
     +'<div class="exp-summary-grid"><div class="exp-sum-item"><div class="exp-sum-val">'+p.audienceSize+'</div><div class="exp-sum-lbl">'+p.audienceLabel+'</div></div><div class="exp-sum-item"><div class="exp-sum-val">'+p.campRevenue+'</div><div class="exp-sum-lbl">Expected Revenue</div></div><div class="exp-sum-item"><div class="exp-sum-val">'+p.campConv+'</div><div class="exp-sum-lbl">Expected Conversion</div></div></div>'
     +'<div class="ai-conf" style="margin-bottom:12px"><span style="font-size:10px;color:var(--color-text-tertiary);white-space:nowrap">AI Confidence</span><div class="ai-conf-bar"><div class="ai-conf-fill" style="width:'+confNum+'%"></div></div><span>'+p.campConf+'</span></div>'
+    +'<div style="margin-bottom:12px;padding:10px 12px;background:var(--color-background-primary);border:0.5px solid var(--color-border-secondary);border-radius:var(--border-radius-md)">'
+    +'<div style="font-size:9px;font-weight:500;color:var(--color-text-tertiary);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:7px">Review Required</div>'
+    +'<div style="display:flex;flex-direction:column;gap:5px">'
+    +'<div style="display:flex;align-items:center;gap:6px;font-size:11px;color:var(--color-text-secondary)"><span style="color:#1D9E75;font-weight:600">&#10003;</span>Audience Strategy</div>'
+    +'<div style="display:flex;align-items:center;gap:6px;font-size:11px;color:var(--color-text-secondary)"><span style="color:#1D9E75;font-weight:600">&#10003;</span>Creative Treatment</div>'
+    +'<div style="display:flex;align-items:center;gap:6px;font-size:11px;color:var(--color-text-secondary)"><span style="color:#1D9E75;font-weight:600">&#10003;</span>Launch Schedule</div>'
+    +'</div></div>'
     +'<button class="submit-btn" onclick="handleSubmit()">Submit to Marketing for Review</button>'
     +'</div>'
     +'<div class="exp-footer"><button class="exp-footer-btn" onclick="this.closest(\'.exp-modal-ov\').remove()">Close</button></div>'
@@ -472,9 +508,9 @@ function renderCampaignDraft(p){
     +'<div class="camp-opp">'+p.campOpp+'</div>'
     +'<div class="camp-prod-lbl">Recommended products</div>'
     +'<ul class="camp-prod-list">'+p.campProds.map(function(n){return'<li><i class="ti ti-circle-dot"></i>'+n+'</li>'}).join('')+'</ul>'
-    +'<div class="camp-metrics"><div class="metric-box"><div class="metric-val" style="color:var(--color-text-tertiary)">--</div><div class="metric-lbl">Proj. Revenue</div></div><div class="metric-box"><div class="metric-val" style="color:var(--color-text-tertiary)">--</div><div class="metric-lbl">Proj. Conversion</div></div></div>'
+    +'<div class="camp-metrics"><div class="metric-box"><div class="metric-val" id="metric-revenue">'+p.campRevenueInit+'</div><div class="metric-lbl">Projected Revenue</div></div><div class="metric-box"><div class="metric-val" id="metric-conv">'+p.campConvInit+'</div><div class="metric-lbl">Projected Conversion</div></div></div>'
     +campStatusHTML(true)
-    +'<button class="explore-btn" disabled>Explore Campaigns</button></div></div>';
+    +'<button class="explore-btn" onclick="showExploreCampaigns()">Explore Campaigns</button></div></div>';
 }
 
 function renderCampaignFinal(p){
@@ -487,7 +523,7 @@ function renderCampaignFinal(p){
     +'<div class="camp-opp">'+p.campOpp+'</div>'
     +'<div class="camp-prod-lbl">Recommended products</div>'
     +'<ul class="camp-prod-list">'+buildProdListHTML(p.campProds)+'</ul>'
-    +'<div class="camp-metrics"><div class="metric-box"><div class="metric-val">'+p.campRevenue+'</div><div class="metric-lbl">Proj. Revenue</div></div><div class="metric-box"><div class="metric-val">'+p.campConv+'</div><div class="metric-lbl">Proj. Conversion</div></div></div>'
+    +'<div class="camp-metrics"><div class="metric-box"><div class="metric-val">'+p.campRevenue+'</div><div class="metric-lbl">Projected Revenue</div></div><div class="metric-box"><div class="metric-val">'+p.campConv+'</div><div class="metric-lbl">Projected Conversion</div></div></div>'
     +campStatusHTML(false)
     +'<button class="explore-btn" onclick="showExploreCampaigns()">Explore Campaigns</button></div></div>';
 }
