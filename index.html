@@ -1,0 +1,698 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>REI Agentic Marketing Demo</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.19.0/dist/tabler-icons.min.css">
+<style>
+:root{
+  --font-sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-mono: 'SF Mono', 'Fira Code', monospace;
+  --color-background-primary: #ffffff;
+  --color-background-secondary: #f7f7f7;
+  --color-background-tertiary: #f0f0f0;
+  --color-text-primary: #111111;
+  --color-text-secondary: #444444;
+  --color-text-tertiary: #888888;
+  --color-border-primary: #bbbbbb;
+  --color-border-secondary: #dddddd;
+  --color-border-tertiary: #eeeeee;
+  --border-radius-md: 6px;
+  --border-radius-lg: 10px;
+}
+@media (prefers-color-scheme: dark) {
+  :root{
+    --color-background-primary: #1a1a1a;
+    --color-background-secondary: #242424;
+    --color-background-tertiary: #2e2e2e;
+    --color-text-primary: #f0f0f0;
+    --color-text-secondary: #b0b0b0;
+    --color-text-tertiary: #707070;
+    --color-border-primary: #555555;
+    --color-border-secondary: #3a3a3a;
+    --color-border-tertiary: #2e2e2e;
+  }
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;font-family:var(--font-sans);background:var(--color-background-tertiary)}
+
+/* KEY ENTRY SCREEN */
+#key-screen{
+  position:fixed;inset:0;background:var(--color-background-tertiary);
+  display:flex;align-items:center;justify-content:center;z-index:1000;
+}
+.key-card{
+  background:var(--color-background-primary);border:0.5px solid var(--color-border-secondary);
+  border-radius:var(--border-radius-lg);padding:32px 36px;max-width:420px;width:90%;
+}
+.key-logo{display:flex;align-items:center;gap:8px;margin-bottom:20px}
+.key-logo-icon{width:36px;height:36px;background:#1a3a1a;border-radius:8px;display:flex;align-items:center;justify-content:center}
+.key-logo-icon i{color:#5DCAA5;font-size:20px}
+.key-logo-text{font-size:18px;font-weight:500;color:var(--color-text-primary)}
+.key-title{font-size:15px;font-weight:500;color:var(--color-text-primary);margin-bottom:6px}
+.key-sub{font-size:13px;color:var(--color-text-tertiary);margin-bottom:20px;line-height:1.5}
+.key-input-row{display:flex;gap:8px;margin-bottom:10px}
+.key-input{
+  flex:1;padding:9px 12px;font-size:13px;
+  border:0.5px solid var(--color-border-secondary);border-radius:var(--border-radius-md);
+  background:var(--color-background-secondary);color:var(--color-text-primary);
+  font-family:var(--font-mono);
+}
+.key-input:focus{outline:none;border-color:#1D9E75}
+.key-btn{
+  padding:9px 18px;font-size:13px;font-weight:500;border:none;border-radius:var(--border-radius-md);
+  background:#1a3a1a;color:#fff;cursor:pointer;white-space:nowrap;
+}
+.key-btn:hover{background:#2d5c2d}
+.key-note{font-size:11px;color:var(--color-text-tertiary);line-height:1.5}
+.key-note a{color:#1D9E75;text-decoration:none}
+.key-error{font-size:12px;color:#A32D2D;margin-top:8px;display:none}
+
+/* DEMO WRAPPER */
+#demo-wrap{display:none;width:100%;height:100vh;padding:12px}
+
+/* SHELL */
+.shell{
+  display:grid;grid-template-rows:55% 45%;
+  width:100%;height:100%;
+  border:0.5px solid var(--color-border-tertiary);
+  border-radius:var(--border-radius-lg);
+  overflow:hidden;background:var(--color-background-tertiary);
+  position:relative;
+}
+.top-section{
+  display:grid;grid-template-columns:180px 230px 1fr;grid-template-rows:48px 1fr;
+  overflow:hidden;border-bottom:0.5px solid var(--color-border-tertiary);
+}
+.col1-header{background:#1a3a1a;padding:0 12px;display:flex;align-items:center;gap:6px;border-right:0.5px solid rgba(255,255,255,0.1)}
+.brand-name{color:#fff;font-size:14px;font-weight:500;letter-spacing:0.02em}
+.brand-icon{color:#5DCAA5;font-size:18px}
+.col2-header{background:#1a3a1a;border-right:0.5px solid rgba(255,255,255,0.1)}
+.col3-header{background:#1a3a1a;display:flex;align-items:center;justify-content:center}
+.nav-cat{color:rgba(255,255,255,0.65);font-size:13px;padding:0 14px;height:48px;display:flex;align-items:center;cursor:pointer;border-bottom:2px solid transparent;transition:color 0.15s;white-space:nowrap}
+.nav-cat:hover{color:#fff}
+.nav-cat.active{color:#fff;border-bottom-color:#5DCAA5}
+.col1-body{background:var(--color-background-secondary);border-right:0.5px solid var(--color-border-tertiary);overflow-y:auto}
+.col1-subhdr{padding:8px 12px;font-size:10px;font-weight:500;color:var(--color-text-tertiary);text-transform:uppercase;letter-spacing:0.05em;border-bottom:0.5px solid var(--color-border-tertiary)}
+.col2-body{background:var(--color-background-primary);border-right:0.5px solid var(--color-border-tertiary);overflow-y:auto;padding:12px}
+.col3-body{background:var(--color-background-primary);overflow-y:auto;padding:14px}
+.bottom-section{display:grid;grid-template-columns:1fr 1fr;overflow:hidden}
+.bottom-panel{display:flex;flex-direction:column;overflow:hidden;padding:10px 14px}
+.bottom-panel:first-child{border-right:0.5px solid var(--color-border-tertiary)}
+.bottom-hdr{font-size:10px;font-weight:500;color:var(--color-text-tertiary);text-transform:uppercase;letter-spacing:0.05em;display:flex;align-items:center;gap:7px;margin-bottom:8px;flex-shrink:0}
+.bottom-scroll{flex:1;overflow-y:auto}
+.dot{width:6px;height:6px;border-radius:50%;background:var(--color-text-tertiary);transition:background 0.3s;flex-shrink:0}
+.hint{margin-left:auto;font-size:10px;color:var(--color-text-tertiary)}
+.persona-row{border-bottom:0.5px solid var(--color-border-tertiary)}
+.persona-trigger{display:flex;align-items:center;gap:8px;padding:8px 12px;cursor:pointer;transition:background 0.15s;user-select:none}
+.persona-trigger:hover,.persona-trigger.active{background:var(--color-background-primary)}
+.av{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:500;flex-shrink:0}
+.pname{font-size:12px;font-weight:500;color:var(--color-text-primary)}
+.ptag{font-size:10px;color:var(--color-text-tertiary)}
+.chev{font-size:12px;color:var(--color-text-tertiary);margin-left:auto}
+.det-name{font-size:14px;font-weight:500;color:var(--color-text-primary);margin-bottom:2px}
+.det-cat{font-size:11px;color:var(--color-text-tertiary);margin-bottom:10px}
+.pills{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:10px;align-items:center}
+.pill{font-size:10px;padding:2px 6px;border:0.5px solid var(--color-border-secondary);border-radius:20px;color:var(--color-text-secondary)}
+.pill-ltv{font-size:12px;font-weight:500;padding:3px 8px;border-radius:20px;background:#FAEEDA;color:#633806;border:0.5px solid #EF9F27}
+.sec-lbl{font-size:9px;font-weight:500;color:var(--color-text-tertiary);text-transform:uppercase;letter-spacing:0.05em;margin:8px 0 4px}
+.sec-lbl:first-child{margin-top:0}
+.pur-row{display:flex;justify-content:space-between;align-items:baseline;padding:2px 0;font-size:11px;color:var(--color-text-secondary);border-bottom:0.5px solid var(--color-border-tertiary)}
+.pur-row:last-child{border:none}
+.pdate{font-size:9px;color:var(--color-text-tertiary);flex-shrink:0;margin-left:4px}
+.sf-item{display:flex;align-items:center;gap:5px;padding:2px 0;font-size:11px}
+.sf-item.ok{color:var(--color-text-tertiary);text-decoration:line-through}
+.sf-item.gap{color:#A32D2D;font-weight:500}
+.sf-item i{font-size:12px;flex-shrink:0}
+.seg-item{display:flex;align-items:center;gap:6px;padding:3px 0;font-size:11px;color:var(--color-text-secondary)}
+.seg-check{width:13px;height:13px;border-radius:3px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:9px;background:#1D9E75;color:#fff}
+.seg-audience{margin-left:auto;font-size:9px;color:var(--color-text-tertiary);white-space:nowrap}
+.seg-intersection{display:flex;align-items:center;gap:5px;padding:4px 6px;margin-top:4px;background:var(--color-background-secondary);border-radius:var(--border-radius-md);font-size:11px;color:#0F6E56;font-weight:500;border:0.5px solid var(--color-border-secondary)}
+.seg-intersection i{font-size:11px;flex-shrink:0}
+.cat-title{font-size:14px;font-weight:500;color:var(--color-text-primary);margin-bottom:1px}
+.cat-sub{font-size:11px;color:var(--color-text-tertiary);margin-bottom:10px}
+.pgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.pcard{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:10px;cursor:pointer;transition:border-color 0.15s,background 0.15s;display:flex;flex-direction:column}
+.pcard:hover{border-color:var(--color-border-primary)}
+.pcard.selected{border:1.5px solid #1D9E75;background:#f0fbf6}
+.pcard.incart{border:1.5px solid #185FA5;background:#eef5fc}
+.pcard.nav-highlight{border:2px solid #1D9E75;background:#e6f9f0}
+.pcard-icon{height:28px;display:flex;align-items:center;margin-bottom:5px}
+.pcard-icon svg{width:22px;height:22px}
+.sale-badge{font-size:9px;font-weight:500;background:#FCEBEB;color:#A32D2D;padding:1px 4px;border-radius:3px;display:inline-block;margin-bottom:2px}
+.pname-lg{font-size:11px;font-weight:500;color:var(--color-text-primary);margin-bottom:1px;line-height:1.3}
+.pdesc{font-size:10px;color:var(--color-text-tertiary);margin-bottom:4px;line-height:1.3;flex:1}
+.price-row{display:flex;align-items:baseline;gap:4px;margin-bottom:5px}
+.price-now{font-size:11px;font-weight:500;color:var(--color-text-primary)}
+.price-was{font-size:10px;color:var(--color-text-tertiary);text-decoration:line-through}
+.cart-btn{width:100%;padding:4px 0;font-size:10px;font-weight:500;border:0.5px solid var(--color-border-secondary);border-radius:var(--border-radius-md);background:transparent;cursor:pointer;color:var(--color-text-secondary);transition:background 0.15s}
+.cart-btn:hover{background:var(--color-background-secondary)}
+.cart-btn.incar{background:#1a3a1a;color:#fff;border-color:#1a3a1a}
+.empty-st{display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;color:var(--color-text-tertiary);font-size:12px;gap:8px}
+.empty-st i{font-size:28px}
+.log-entry{display:grid;grid-template-columns:44px 16px 1fr;align-items:start;gap:3px;padding:2px 0;border-bottom:0.5px solid var(--color-border-tertiary)}
+.log-entry:last-child{border:none}
+.lt{font-size:10px;color:var(--color-text-tertiary);font-family:var(--font-mono)}
+.lmsg{font-size:11px;color:var(--color-text-secondary);line-height:1.4}
+.lmsg.cart{color:#185FA5;font-weight:500}
+.lmsg.trigger{color:#0F6E56;font-weight:500}
+.lmsg.session{color:var(--color-text-primary);font-weight:500}
+.lmsg.learn{color:#854F0B;font-weight:500}
+.camp-empty{font-size:11px;color:var(--color-text-tertiary);padding:16px 0;text-align:center}
+.camp-card{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-md);padding:10px 12px}
+.camp-badge.draft-b{font-size:9px;font-weight:500;padding:2px 7px;border-radius:20px;display:inline-block;margin-bottom:5px;background:var(--color-background-secondary);color:var(--color-text-tertiary);border:0.5px solid var(--color-border-secondary)}
+.camp-title{font-size:13px;font-weight:500;color:var(--color-text-primary);margin-bottom:3px}
+.camp-audience{display:flex;align-items:center;gap:5px;font-size:11px;color:var(--color-text-primary);font-weight:500;margin-bottom:3px}
+.camp-audience i{font-size:12px;color:#1D9E75}
+.camp-opp-label{font-size:9px;font-weight:500;color:var(--color-text-tertiary);text-transform:uppercase;letter-spacing:0.04em;margin-bottom:2px}
+.camp-opp{font-size:11px;color:var(--color-text-secondary);line-height:1.5;margin-bottom:6px}
+.camp-prod-lbl{font-size:9px;font-weight:500;color:var(--color-text-tertiary);text-transform:uppercase;letter-spacing:0.04em;margin-bottom:3px}
+.camp-prod-list{list-style:none;margin-bottom:7px}
+.camp-prod-list li{font-size:11px;color:var(--color-text-secondary);padding:1px 0;display:flex;align-items:center;gap:5px}
+.camp-prod-list li i{font-size:10px;color:#1D9E75}
+.camp-prod-list li.dynamic-item i{color:#854F0B}
+.camp-prod-list li.new-item{animation:fadeIn 0.6s ease}
+@keyframes fadeIn{from{opacity:0;transform:translateY(-5px)}to{opacity:1;transform:translateY(0)}}
+.camp-metrics{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:7px}
+.metric-box{background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:5px 8px}
+.metric-val{font-size:13px;font-weight:500;color:var(--color-text-primary)}
+.metric-lbl{font-size:9px;color:var(--color-text-tertiary)}
+.status-row{display:flex;align-items:center;gap:5px;font-size:10px;margin-bottom:3px}
+.status-row.approval{color:#633806}
+.status-row.schedule{color:var(--color-text-tertiary)}
+.status-row i{font-size:11px;flex-shrink:0}
+.explore-btn{width:100%;padding:6px 0;font-size:12px;font-weight:500;border-radius:var(--border-radius-md);cursor:pointer;border:none;background:#1a3a1a;color:#fff;transition:background 0.15s;margin-top:7px}
+.explore-btn:hover{background:#2d5c2d}
+.explore-btn:disabled{background:var(--color-background-secondary);color:var(--color-text-tertiary);cursor:not-allowed;border:0.5px solid var(--color-border-tertiary)}
+.modal-ov{position:absolute;inset:0;background:rgba(10,20,10,0.55);display:flex;align-items:center;justify-content:center;z-index:100;border-radius:var(--border-radius-lg)}
+.mbox{background:var(--color-background-primary);border-radius:var(--border-radius-lg);padding:20px 22px 18px;max-width:320px;width:90%;border:0.5px solid var(--color-border-secondary);position:relative}
+.mbadge{font-size:10px;font-weight:500;padding:3px 8px;border-radius:20px;display:inline-flex;align-items:center;gap:4px;margin-bottom:8px}
+.mbadge.safety{background:#FCEBEB;color:#A32D2D}
+.mbadge.gear{background:#E1F5EE;color:#0F6E56}
+.mhook{font-size:11px;color:var(--color-text-tertiary);margin-bottom:2px}
+.mtitle{font-size:15px;font-weight:500;color:var(--color-text-primary);margin-bottom:10px;line-height:1.35}
+.mrec{background:var(--color-background-secondary);border:1px solid var(--color-border-secondary);border-radius:var(--border-radius-md);padding:10px 12px;margin-bottom:12px;cursor:pointer;transition:border-color 0.15s,background 0.15s;position:relative}
+.mrec:hover{border-color:#1D9E75;background:#f0fbf6}
+.mrec-hint{font-size:9px;color:var(--color-text-tertiary);position:absolute;top:7px;right:8px;display:flex;align-items:center;gap:2px}
+.mrec-name{font-size:13px;font-weight:500;color:var(--color-text-primary);margin-bottom:2px;padding-right:56px}
+.mrec-tag{font-size:11px;color:var(--color-text-secondary);margin-bottom:6px}
+.mrec-pricing{display:flex;align-items:baseline;gap:6px}
+.mrec-sale{font-size:14px;font-weight:500;color:#0F6E56}
+.mrec-pct{font-size:11px;color:#0F6E56}
+.mrec-was{font-size:11px;color:var(--color-text-tertiary);text-decoration:line-through}
+.mactions{display:flex;gap:8px}
+.mbtn{font-size:12px;font-weight:500;padding:8px 14px;border-radius:var(--border-radius-md);cursor:pointer;border:0.5px solid var(--color-border-secondary);background:transparent;color:var(--color-text-secondary)}
+.mbtn:hover{background:var(--color-background-secondary)}
+.mbtn.primary{background:#1a3a1a;color:#fff;border-color:#1a3a1a;flex:1}
+.mbtn.primary:hover{background:#2d5c2d}
+.mclose{position:absolute;top:10px;right:10px;background:none;border:none;cursor:pointer;color:var(--color-text-tertiary);font-size:15px;padding:2px}
+.thinking{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--color-text-secondary);padding:6px 0}
+.exp-modal-ov{position:absolute;inset:0;background:rgba(10,20,10,0.65);display:flex;align-items:center;justify-content:center;z-index:200;border-radius:var(--border-radius-lg);padding:16px}
+.exp-box{background:var(--color-background-primary);border-radius:var(--border-radius-lg);padding:20px;width:100%;max-width:700px;max-height:92%;overflow-y:auto;border:0.5px solid var(--color-border-secondary);position:relative}
+.exp-title{font-size:15px;font-weight:500;color:var(--color-text-primary);margin-bottom:2px}
+.exp-sub{font-size:11px;color:var(--color-text-tertiary);margin-bottom:14px}
+.exp-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px}
+.variant-card{border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:14px;display:flex;flex-direction:column;gap:6px}
+.variant-card.safety-var{border-top:3px solid #A32D2D}
+.variant-card.perf-var{border-top:3px solid #185FA5}
+.var-label{font-size:10px;font-weight:500;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:2px}
+.var-label.sv{color:#A32D2D}
+.var-label.pv{color:#185FA5}
+.var-size{font-size:18px;font-weight:500;color:var(--color-text-primary)}
+.var-size-lbl{font-size:10px;color:var(--color-text-tertiary)}
+.var-concept{font-size:13px;font-weight:500;color:var(--color-text-primary);margin-top:4px}
+.var-desc{font-size:11px;color:var(--color-text-secondary);line-height:1.55}
+.var-hero{display:flex;align-items:center;gap:6px;background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:6px 8px;font-size:11px;color:var(--color-text-secondary)}
+.var-hero i{font-size:12px;color:var(--color-text-tertiary)}
+.var-metrics{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.var-metric{background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:5px 8px}
+.var-metric-val{font-size:13px;font-weight:500;color:var(--color-text-primary)}
+.var-metric-lbl{font-size:9px;color:var(--color-text-tertiary)}
+.exp-summary{background:var(--color-background-secondary);border:0.5px solid var(--color-border-secondary);border-radius:var(--border-radius-lg);padding:14px 16px;margin-bottom:14px}
+.exp-summary-title{font-size:11px;font-weight:500;color:var(--color-text-tertiary);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:10px}
+.exp-summary-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:12px}
+.exp-sum-item{display:flex;flex-direction:column;gap:2px}
+.exp-sum-val{font-size:15px;font-weight:500;color:var(--color-text-primary)}
+.exp-sum-lbl{font-size:10px;color:var(--color-text-tertiary)}
+.exp-sum-groups{display:flex;gap:16px;margin-bottom:12px;padding-bottom:10px;border-bottom:0.5px solid var(--color-border-tertiary)}
+.exp-sum-group{font-size:11px;color:var(--color-text-secondary);display:flex;align-items:center;gap:5px}
+.exp-sum-group i{font-size:11px}
+.exp-sum-group.ga{color:#A32D2D}
+.exp-sum-group.gb{color:#185FA5}
+.submit-btn{width:100%;padding:11px 0;font-size:13px;font-weight:500;border-radius:var(--border-radius-md);cursor:pointer;border:1.5px solid #1D9E75;background:#1a3a1a;color:#fff;transition:all 0.2s;letter-spacing:0.01em}
+.submit-btn:hover{background:#1D9E75;border-color:#1D9E75;box-shadow:0 0 0 3px rgba(29,158,117,0.2)}
+.exp-footer{display:flex;justify-content:flex-end;padding-top:10px;border-top:0.5px solid var(--color-border-tertiary)}
+.exp-footer-btn{font-size:12px;font-weight:500;padding:8px 18px;border-radius:var(--border-radius-md);cursor:pointer;border:0.5px solid var(--color-border-secondary);background:transparent;color:var(--color-text-secondary)}
+.exp-footer-btn:hover{background:var(--color-background-secondary)}
+.toast{position:absolute;bottom:16px;left:50%;transform:translateX(-50%);background:#1a3a1a;color:#fff;font-size:12px;padding:10px 18px;border-radius:var(--border-radius-lg);z-index:300;display:flex;align-items:center;gap:8px;box-shadow:0 2px 12px rgba(0,0,0,0.2);max-width:88%}
+.ai-conf{display:flex;align-items:center;gap:6px;font-size:11px;color:#0F6E56;font-weight:500}
+.ai-conf-bar{flex:1;height:4px;background:var(--color-border-tertiary);border-radius:2px;overflow:hidden}
+.ai-conf-fill{height:100%;background:#1D9E75;border-radius:2px}
+</style>
+</head>
+<body>
+
+<!-- KEY ENTRY SCREEN -->
+<div id="key-screen">
+  <div class="key-card">
+    <div class="key-logo">
+      <div class="key-logo-icon"><i class="ti ti-leaf"></i></div>
+      <span class="key-logo-text">REI Agentic Marketing Demo</span>
+    </div>
+    <div class="key-title">Enter your Anthropic API key to begin</div>
+    <div class="key-sub">Your key stays in memory for this session only and is never sent anywhere except directly to the Anthropic API. Get yours at <a href="https://console.anthropic.com" target="_blank">console.anthropic.com</a>.</div>
+    <div class="key-input-row">
+      <input type="password" class="key-input" id="api-key-input" placeholder="sk-ant-..." autocomplete="off">
+      <button class="key-btn" onclick="startDemo()">Start Demo</button>
+    </div>
+    <div class="key-note">Press Enter or click Start Demo. Your key is not stored or logged.</div>
+    <div class="key-error" id="key-error">Please enter a valid API key starting with sk-ant-</div>
+  </div>
+</div>
+
+<!-- DEMO -->
+<div id="demo-wrap">
+<div class="shell" id="shell">
+  <div class="top-section">
+    <div class="col1-header"><i class="ti ti-leaf brand-icon"></i><span class="brand-name">REI Co-op</span></div>
+    <div class="col2-header"></div>
+    <div class="col3-header">
+      <div class="nav-cat active" data-cat="camping">Camping</div>
+      <div class="nav-cat" data-cat="cycling">Cycling</div>
+      <div class="nav-cat" data-cat="watersports">Water Sports</div>
+      <div class="nav-cat" data-cat="snow">Snow Sports</div>
+    </div>
+    <div class="col1-body"><div class="col1-subhdr">Customers</div><div id="persona-list"></div></div>
+    <div class="col2-body" id="detail-panel"></div>
+    <div class="col3-body" id="product-panel"><div class="empty-st"><i class="ti ti-user-search"></i><span>Select a customer to start</span></div></div>
+  </div>
+  <div class="bottom-section">
+    <div class="bottom-panel">
+      <div class="bottom-hdr"><div class="dot" id="dot"></div>Session activity<span class="hint" id="hint"></span></div>
+      <div class="bottom-scroll" id="log-entries"><div class="log-entry"><span class="lt">--:--</span><i class="ti ti-activity" style="font-size:13px;color:var(--color-text-tertiary)"></i><span class="lmsg">Waiting for session...</span></div></div>
+    </div>
+    <div class="bottom-panel" id="campaign-panel">
+      <div class="bottom-hdr"><i class="ti ti-chart-bar" style="font-size:13px;color:var(--color-text-tertiary)"></i>Campaign Intelligence</div>
+      <div class="bottom-scroll"><div class="camp-empty">Select a customer to see campaign intelligence</div></div>
+    </div>
+  </div>
+</div>
+</div>
+
+<script>
+var API_KEY='';
+
+function startDemo(){
+  var k=document.getElementById('api-key-input').value.trim();
+  var err=document.getElementById('key-error');
+  if(!k||!k.startsWith('sk-ant-')){err.style.display='block';return;}
+  err.style.display='none';
+  API_KEY=k;
+  document.getElementById('key-screen').style.display='none';
+  document.getElementById('demo-wrap').style.display='block';
+  renderPersonas();
+}
+document.getElementById('api-key-input').addEventListener('keydown',function(e){if(e.key==='Enter')startDemo()});
+
+var ICONS={backpack:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 4a3 3 0 0 1 6 0"/><path d="M5 8a4 4 0 0 1 4-4h6a4 4 0 0 1 4 4v10a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2z"/><path d="M9 13h6"/><path d="M9 17h4"/><circle cx="12" cy="9" r="1"/></svg>',stove:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="10" width="18" height="9" rx="2"/><path d="M3 13h18"/><path d="M9 7c0-2 1-3 3-3s3 1 3 3"/><circle cx="8" cy="16" r="1"/><circle cx="16" cy="16" r="1"/></svg>',pad:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="6" width="16" height="13" rx="3"/><path d="M8 6V4"/><path d="M16 6V4"/><path d="M4 12h16"/></svg>',bearspray:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="8" y="7" width="8" height="13" rx="2"/><path d="M11 7V5a1 1 0 0 1 2 0v2"/><path d="M16 10h2"/><path d="M10 11h4"/><path d="M10 14h4"/></svg>',firstaid:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="6" width="18" height="14" rx="2"/><path d="M12 10v6"/><path d="M9 13h6"/></svg>',headlamp:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="M4.93 4.93l1.41 1.41"/><path d="M17.66 17.66l1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="M4.93 19.07l1.41-1.41"/></svg>',hydration:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2C6.48 2 4 7 4 12c0 4.42 3.58 8 8 8s8-3.58 8-8c0-5-2.48-10-8-10z"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/></svg>',computer:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M9 11l2 2 4-4"/></svg>',gel:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="3" width="6" height="18" rx="3"/><path d="M9 9h6"/></svg>',headlight:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="10" cy="12" r="5"/><path d="M15 8l4-2"/><path d="M15 12h5"/><path d="M15 16l4 2"/></svg>',radar:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 12m-1 0a1 1 0 1 0 2 0a1 1 0 1 0-2 0"/><path d="M16.616 13.769a5 5 0 1 0-9.23 0"/><path d="M20.307 15.538a9 9 0 1 0-16.614 0"/><path d="M12 21v-9"/></svg>',bibs:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h12l2 7H4z"/><path d="M4 10l2 11h4l2-6 2 6h4l2-11"/></svg>',paddle:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="5" cy="6" rx="3" ry="4" transform="rotate(-30 5 6)"/><line x1="7.5" y1="8.5" x2="19" y2="20"/><ellipse cx="19" cy="18" rx="3" ry="4" transform="rotate(-30 19 18)"/></svg>',drysuit:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3l-2 5v13h16V8l-2-5z"/><path d="M6 3h12"/><path d="M10 3v4"/><path d="M14 3v4"/><path d="M4 14h16"/></svg>',pfd:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3C8 3 5 6 5 10v4c0 4 3 7 7 7s7-3 7-7v-4c0-4-3-7-7-7z"/><path d="M5 12h14"/><path d="M9 3v4"/><path d="M15 3v4"/></svg>',kayak:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="13" rx="9" ry="4"/><path d="M3 13c0-3 4-6 9-6s9 3 9 6"/><path d="M12 7V4"/></svg>',gloves:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 11V7a2 2 0 0 0-4 0v4"/><path d="M14 7V5a2 2 0 0 0-4 0v6"/><path d="M10 5.5V5a2 2 0 0 0-4 0v9"/><path d="M6 10a2 2 0 0 0-2 2v2a8 8 0 0 0 16 0v-5a2 2 0 0 0-4 0"/></svg>',rescue:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="3"/><path d="M12 4v5"/><path d="M12 15v5"/><path d="M4 12h5"/><path d="M15 12h5"/></svg>',binding:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="10" width="16" height="5" rx="1"/><path d="M8 10V7"/><path d="M16 10V7"/><path d="M6 15v2"/><path d="M18 15v2"/><path d="M4 12h16"/></svg>',skins:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 20L19 4"/><path d="M5 20h5"/><path d="M19 4h-5"/><path d="M9 20l10-8"/><path d="M5 12l10-8"/></svg>',skiboot:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 18h18v2H3z"/><path d="M6 18V9a3 3 0 0 1 3-3h3l4 4v8"/><path d="M9 6V4"/></svg>',jacket:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7l4-4 5 3 5-3 4 4v13H3z"/><path d="M12 6v15"/><path d="M3 11h18"/></svg>',beacon:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5.636 18.364a9 9 0 0 1 0-12.728"/><path d="M18.364 5.636a9 9 0 0 1 0 12.728"/><path d="M8.464 15.536a5 5 0 0 1 0-7.072"/><path d="M15.536 8.464a5 5 0 0 1 0 7.072"/><circle cx="12" cy="12" r="1"/></svg>',crampon:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8h16"/><path d="M6 8v8"/><path d="M10 8v8"/><path d="M14 8v8"/><path d="M18 8v8"/><path d="M4 16h16"/><path d="M6 16l-2 4"/><path d="M10 16l-1 4"/><path d="M14 16l1 4"/><path d="M18 16l2 4"/></svg>'};
+
+var SALES={camping:[{id:'c1',pct:22,salePrice:'$210',tag:'Best-seller for backcountry'},{id:'c5',pct:30,salePrice:'$31',tag:'Essential trail safety kit'}],cycling:[{id:'cy5',pct:18,salePrice:'$164',tag:'Top-rated for road safety'},{id:'cy4',pct:25,salePrice:'$68',tag:'USB-C rechargeable, 900 lumen'}],watersports:[{id:'w1',pct:15,salePrice:'$327',tag:'Best upgrade for touring paddlers'}],snow:[{id:'s1',pct:20,salePrice:'$360',tag:'Essential for backcountry touring'}]};
+
+var PRODUCTS={
+  camping:[{id:'c1',name:'Osprey Atmos AG 65L',desc:'Anti-gravity backcountry pack',price:'$270',icon:'backpack'},{id:'c2',name:'MSR Pocket Rocket 2',desc:'Ultralight canister stove',price:'$55',icon:'stove'},{id:'c3',name:'NEMO Tensor sleeping pad',desc:'Ultralight insulated pad',price:'$185',icon:'pad'},{id:'c4',name:'Counter Assault Bear Spray',desc:'EPA-registered bear deterrent',price:'$52',icon:'bearspray',safety:true},{id:'c5',name:'Adventure Medical Kit 2.0',desc:'Comprehensive trail first aid',price:'$45',icon:'firstaid',safety:true},{id:'c6',name:'Black Diamond Spot 400',desc:'350-lumen rechargeable headlamp',price:'$50',icon:'headlamp'}],
+  cycling:[{id:'cy1',name:'CamelBak Chase Vest',desc:'1.5L on-bike hydration vest',price:'$110',icon:'hydration'},{id:'cy2',name:'Wahoo Elemnt Bolt V2',desc:'Aero GPS cycling computer',price:'$280',icon:'computer'},{id:'cy3',name:'Bonk Breaker Gels 12-pack',desc:'Mixed flavors, 100mg caffeine',price:'$36',icon:'gel'},{id:'cy4',name:'Knog Blinder 900 Front',desc:'USB-C rechargeable, 900 lumen',price:'$90',icon:'headlight',safety:true},{id:'cy5',name:'Garmin Varia RTL515',desc:'Radar taillight + Garmin pairing',price:'$200',icon:'radar',safety:true},{id:'cy6',name:'Castelli Nanoflex Bibs',desc:'Cold-weather thermal bib tights',price:'$160',icon:'bibs'}],
+  watersports:[{id:'w1',name:'Werner Camano Carbon',desc:'Full carbon 220cm touring paddle',price:'$385',icon:'paddle'},{id:'w2',name:'Kokatat GORE-TEX Drysuit',desc:'Entry-level touring drysuit',price:'$850',icon:'drysuit'},{id:'w3',name:'NRS Zen PFD',desc:'High-mobility touring life vest',price:'$130',icon:'pfd'},{id:'w4',name:'Perception Carolina 14.0',desc:'Stable sea touring kayak',price:'$1,150',icon:'kayak'},{id:'w5',name:'Stohlquist Taku Gloves',desc:'Neoprene paddling gloves',price:'$40',icon:'gloves'},{id:'w6',name:'Seattle Sports Paddle Float',desc:'Solo self-rescue float aid',price:'$38',icon:'rescue'}],
+  snow:[{id:'s1',name:'Dynafit Radical ST2',desc:'Alpine touring tech bindings',price:'$450',icon:'binding'},{id:'s2',name:'Black Diamond Ascension Skins',desc:'Mohair mix climbing skins',price:'$190',icon:'skins'},{id:'s3',name:'Scarpa Maestrale RS',desc:'High-performance touring boot',price:'$750',icon:'skiboot'},{id:'s4',name:"Arc'teryx Rush LT Jacket",desc:'Lightweight backcountry shell',price:'$600',icon:'jacket'},{id:'s5',name:'Ortovox Diract Speed Beacon',desc:'Award-winning avi beacon',price:'$380',icon:'beacon',safety:true},{id:'s6',name:'Black Diamond Sabretooth',desc:'Steel 12-point crampons',price:'$110',icon:'crampon'}]
+};
+
+var PERSONAS=[
+  {id:'marcus',name:'Marcus K.',initials:'MK',category:'Camping',cat:'camping',ab:'#E1F5EE',ac:'#0F6E56',age:34,loc:'Denver, CO',ltv:'$420',
+   segments:[{label:'Outdoor Enthusiasts',size:'48,273'},{label:'No Safety Purchase History',size:'31,590'}],
+   intersection:{label:'Safety-Gap Campers',size:'22,107'},
+   purchases:[{n:'Coleman 6-person tent',d:'Apr 2022'},{n:'REI Co-op sleeping bag 20F',d:'Aug 2022'},{n:'Jetboil Flash cooking system',d:'Jun 2023'},{n:'Black Diamond trekking poles',d:'Mar 2024'}],
+   safety:[{n:'Bear spray',ok:false},{n:'First aid kit',ok:false}],gearGap:'No backpack -- every backcountry trip requires borrowed gear',
+   campTitle:'Summer Camping Essentials',campOppLabel:'Opportunity Detected',
+   campOpp:'Backcountry pack and safety gear searches have increased 22% among Camping Enthusiasts over the past 7 days.',
+   campProds:['Osprey Atmos AG 65L','Adventure Medical Kit 2.0'],campRevenue:'$112K',campConv:'4.8%',campConf:'86%',audienceSize:'22,107',audienceLabel:'Safety-Gap Campers',
+   varA:{label:'Group A -- Safety Gap',size:'12,800',concept:'Get Safe Out There',desc:'Targets campers with no first aid or bear protection. Urgency-led creative emphasizing responsible backcountry prep. Pairs safety kit bundle with introductory pack offer.',hero:'Adventure Medical Kit 2.0',revenue:'$58K',conv:'5.1%'},
+   varB:{label:'Group B -- Gear Ready',size:'9,307',concept:'Level Up Your Kit',desc:'Targets campers who own safety gear but lack a quality pack. Aspiration-led creative showcasing the Osprey AG system as the natural next step for serious adventurers.',hero:'Osprey Atmos AG 65L',revenue:'$54K',conv:'4.4%'}},
+  {id:'sofia',name:'Sofia R.',initials:'SR',category:'Cycling',cat:'cycling',ab:'#E6F1FB',ac:'#185FA5',age:29,loc:'Portland, OR',ltv:'$890',
+   segments:[{label:'Cycling Enthusiasts',size:'62,340'},{label:'High Value Customers',size:'38,451'}],
+   intersection:{label:'High Value Cyclists',size:'12,841'},
+   purchases:[{n:'Trek Domane AL 3 road bike',d:'Jan 2023'},{n:'Giro Agilis MIPS helmet',d:'Jan 2023'},{n:'Pearl Izumi bib shorts x2',d:'May 2023'},{n:'Garmin Edge 530 computer',d:'Sep 2023'},{n:'Specialized cycling shoes',d:'Feb 2024'}],
+   safety:[{n:'Flashing headlight',ok:false},{n:'Radar taillight',ok:false}],gearGap:'No hydration system for century training blocks',
+   campTitle:'Summer Cycling Essentials',campOppLabel:'Opportunity Detected',
+   campOpp:'Increased interest in hydration, safety, and endurance products among Cycling Enthusiasts over the past 7 days.',
+   campProds:['Garmin Varia RTL515','CamelBak Chase Vest'],campRevenue:'$148K',campConv:'5.2%',campConf:'89%',audienceSize:'12,841',audienceLabel:'High Value Cyclists',
+   varA:{label:'Group A -- Safety Gap',size:'7,900',concept:'Ride Visible, Ride Safe',desc:'Targets cyclists with no radar or lighting purchases. Safety-forward creative built around visibility and road confidence. Leads with Garmin Varia paired with Knog front light at 25% off.',hero:'Garmin Varia RTL515',revenue:'$84K',conv:'5.8%'},
+   varB:{label:'Group B -- Safety Equipped',size:'4,941',concept:'Train Further, Go Faster',desc:'Targets cyclists who own safety gear and are ready to optimize. Performance-led creative around century training and endurance. Hero product is the CamelBak Chase Vest.',hero:'CamelBak Chase Vest',revenue:'$64K',conv:'4.4%'}},
+  {id:'jordan',name:'Jordan P.',initials:'JP',category:'Water Sports',cat:'watersports',ab:'#FAEEDA',ac:'#854F0B',age:41,loc:'Seattle, WA',ltv:'$1,140',
+   segments:[{label:'Watersports Enthusiasts',size:'41,200'},{label:'Active Paddlers',size:'19,800'}],
+   intersection:{label:'Active Paddlers',size:'9,204'},
+   purchases:[{n:'Perception Swifty 9.5 kayak',d:'May 2022'},{n:'NRS foam PFD basic',d:'May 2022'},{n:'Harmony fiberglass paddle',d:'Aug 2022'},{n:'Kokatat wetsuit top',d:'Apr 2023'},{n:'SealLine dry storage bag',d:'Jun 2023'},{n:'NRS bilge pump',d:'Jun 2023'},{n:'Yakima roof rack kit',d:'Jul 2023'}],
+   safety:[{n:'Dry storage bag',ok:true},{n:'Bilge pump',ok:true}],gearGap:'Ready to upgrade from fiberglass to carbon fiber paddle',
+   campTitle:'Summer on the Water',campOppLabel:'Opportunity Detected',
+   campOpp:'High-intent browsing of carbon paddles and drysuits among Watersports Customers has risen 31% over the past 7 days.',
+   campProds:['Werner Camano Carbon','Kokatat GORE-TEX Drysuit'],campRevenue:'$193K',campConv:'6.1%',campConf:'92%',audienceSize:'9,204',audienceLabel:'Active Paddlers',
+   varA:{label:'Group A -- Safety Gap',size:'3,800',concept:'Paddle Safer This Summer',desc:'Targets paddlers with incomplete safety kit. Pairs an upgraded PFD with dry storage, framing safety as enabling rather than limiting your time on the water.',hero:'NRS Zen PFD',revenue:'$72K',conv:'5.9%'},
+   varB:{label:'Group B -- Gear Ready',size:'5,404',concept:'Upgrade Your Stroke',desc:'Targets paddlers with full safety kit ready to invest in performance. Carbon paddle upgrade framed as the single biggest improvement to touring speed and endurance.',hero:'Werner Camano Carbon',revenue:'$121K',conv:'6.3%'}},
+  {id:'anika',name:'Anika L.',initials:'AL',category:'Snow Sports',cat:'snow',ab:'#EEEDFE',ac:'#534AB7',age:37,loc:'Salt Lake City, UT',ltv:'$2,200',
+   segments:[{label:'Snow Sports Enthusiasts',size:'75,820'},{label:'High Value Customers',size:'38,451'}],
+   intersection:{label:'High Value Snow Enthusiasts',size:'12,841'},
+   purchases:[{n:'Rossignol Experience 88 skis',d:'Nov 2020'},{n:'Salomon ski boots',d:'Nov 2020'},{n:'Smith ski goggles',d:'Dec 2021'},{n:'Patagonia ski jacket + pants',d:'Oct 2022'},{n:'Black Diamond ski poles',d:'Jan 2024'},{n:'BCA Tracker4 beacon',d:'Dec 2023'},{n:'BCA Stealth 270 probe',d:'Dec 2023'},{n:'BCA Dozer 1T shovel',d:'Dec 2023'}],
+   safety:[{n:'Avalanche beacon',ok:true},{n:'Probe',ok:true},{n:'Shovel',ok:true}],gearGap:'Alpine skis are resort-only -- needs touring bindings and skins',
+   campTitle:'Go Backcountry This Season',campOppLabel:'Opportunity Detected',
+   campOpp:'Interest in touring and alpine equipment has increased 18% among High Value Snow Enthusiasts over the past 7 days.',
+   campProds:['Dynafit Radical ST2','Black Diamond Ascension Skins'],campRevenue:'$267K',campConv:'4.1%',campConf:'84%',audienceSize:'12,841',audienceLabel:'High Value Snow Enthusiasts',
+   varA:{label:'Group A -- Safety Gap',size:'4,200',concept:'Earn Your Turns Safely',desc:'Targets backcountry-curious skiers without avi safety gear. Leads with beacon-probe-shovel bundle as the entry cost to the backcountry, then introduces touring bindings as the upgrade.',hero:'BCA Tracker4 Beacon Bundle',revenue:'$98K',conv:'4.5%'},
+   varB:{label:'Group B -- Safety Ready',size:'8,641',concept:'Your Skis Are Holding You Back',desc:'Targets fully-equipped skiers whose gear is resort-only. Direct creative challenging them to take the next step. Hero is the Dynafit Radical ST2 binding with 20% off messaging.',hero:'Dynafit Radical ST2',revenue:'$169K',conv:'3.9%'}}
+];
+
+var activePersona=null,sessionEvents=[],modalFired=false,startTime=null,lastViewedId=null,cartProducts=new Set(),currentCat='camping',thirdProductAdded=false,dynamicProductName=null;
+
+function ts(){if(!startTime)return'--:--';var s=Math.floor((Date.now()-startTime)/1000);return(Math.floor(s/60)<10?'0':'')+Math.floor(s/60)+':'+(s%60<10?'0':'')+(s%60)}
+
+function logAdd(msg,cls){
+  cls=cls||'';
+  var c=document.getElementById('log-entries');
+  if(c.children.length===1&&c.children[0].querySelector('.lt').textContent==='--:--')c.innerHTML='';
+  var icons={cart:'ti-shopping-cart',trigger:'ti-sparkles',session:'ti-user',view:'ti-eye',learn:'ti-brain'};
+  var d=document.createElement('div');d.className='log-entry';
+  d.innerHTML='<span class="lt">'+ts()+'</span><i class="ti '+(icons[cls]||'ti-activity')+'" style="font-size:13px;color:var(--color-text-tertiary)"></i><span class="lmsg '+cls+'">'+msg+'</span>';
+  c.appendChild(d);c.parentElement.scrollTop=c.parentElement.scrollHeight;
+  var dot=document.getElementById('dot');dot.style.background='#1D9E75';
+  setTimeout(function(){dot.style.background='var(--color-text-tertiary)'},500);
+}
+
+function updateHint(){
+  var h=document.getElementById('hint');
+  if(!activePersona||modalFired){h.textContent='';return;}
+  var views=sessionEvents.filter(function(e){return e.t==='view'}).length;
+  var need=Math.max(0,3-views);
+  h.textContent=need>0?(need+' more view'+(need!==1?'s':'')+' to trigger'):'';
+}
+
+function checkTrigger(){
+  if(!activePersona)return;
+  var views=sessionEvents.filter(function(e){return e.t==='view'}).length;
+  var carts=sessionEvents.filter(function(e){return e.t==='cart'}).length;
+  if(!thirdProductAdded&&views>=2){
+    thirdProductAdded=true;
+    var dynProd=PRODUCTS[currentCat][2];
+    if(dynProd){
+      dynamicProductName=dynProd.name;
+      logAdd('Behavior signal: adding '+dynProd.name+' to campaign','learn');
+      var list=document.querySelector('.camp-prod-list');
+      if(list){var li=document.createElement('li');li.className='new-item dynamic-item';li.innerHTML='<i class="ti ti-plus"></i>'+dynProd.name;list.appendChild(li);}
+    }
+  }
+  if(!modalFired&&(views>=3||carts>=1))fireModal();
+  else if(!modalFired)updateHint();
+}
+
+function buildProdListHTML(baseProds){
+  var html=baseProds.map(function(n){return'<li><i class="ti ti-circle-dot"></i>'+n+'</li>'}).join('');
+  if(thirdProductAdded&&dynamicProductName)html+='<li class="dynamic-item"><i class="ti ti-plus"></i>'+dynamicProductName+'</li>';
+  return html;
+}
+
+function campStatusHTML(isDraft){
+  if(isDraft)return'<div class="status-row approval"><i class="ti ti-clock"></i>Pending AI session analysis</div>';
+  return'<div class="status-row approval"><i class="ti ti-user-check"></i>Status: Awaiting Marketing Approval</div>'
+    +'<div class="status-row schedule"><i class="ti ti-calendar"></i>Scheduled: Thu Jul 10 - 4:00 PM</div>';
+}
+
+function showToast(msg,duration){
+  duration=duration||4000;
+  var ex=document.querySelector('.toast');if(ex)ex.remove();
+  var t=document.createElement('div');t.className='toast';
+  t.innerHTML='<i class="ti ti-check" style="font-size:14px;flex-shrink:0"></i><span>'+msg+'</span>';
+  document.getElementById('shell').appendChild(t);
+  setTimeout(function(){if(t.parentNode)t.remove()},duration);
+}
+
+function showExploreCampaigns(){
+  var p=activePersona;if(!p)return;
+  var ex=document.querySelector('.exp-modal-ov');if(ex)ex.remove();
+  var ov=document.createElement('div');ov.className='exp-modal-ov';
+  var confNum=parseInt(p.campConf);
+  ov.innerHTML='<div class="exp-box">'
+    +'<button class="mclose" onclick="this.closest(\'.exp-modal-ov\').remove()" style="position:absolute;top:14px;right:14px;background:none;border:none;cursor:pointer;color:var(--color-text-tertiary);font-size:16px"><i class="ti ti-x"></i></button>'
+    +'<div class="exp-title">'+p.campTitle+' -- Campaign Variants</div>'
+    +'<div class="exp-sub">'+p.audienceSize+' '+p.audienceLabel+' split by safety purchase history into two distinct creative treatments</div>'
+    +'<div class="exp-grid">'
+    +'<div class="variant-card safety-var"><div class="var-label sv"><i class="ti ti-alert-triangle" style="font-size:10px"></i> '+p.varA.label+'</div><div><div class="var-size">'+p.varA.size+'</div><div class="var-size-lbl">customers</div></div><div class="var-concept">&ldquo;'+p.varA.concept+'&rdquo;</div><div class="var-desc">'+p.varA.desc+'</div><div class="var-hero"><i class="ti ti-star"></i>Hero: '+p.varA.hero+'</div><div class="var-metrics"><div class="var-metric"><div class="var-metric-val">'+p.varA.revenue+'</div><div class="var-metric-lbl">Proj. Revenue</div></div><div class="var-metric"><div class="var-metric-val">'+p.varA.conv+'</div><div class="var-metric-lbl">Proj. Conversion</div></div></div></div>'
+    +'<div class="variant-card perf-var"><div class="var-label pv"><i class="ti ti-trending-up" style="font-size:10px"></i> '+p.varB.label+'</div><div><div class="var-size">'+p.varB.size+'</div><div class="var-size-lbl">customers</div></div><div class="var-concept">&ldquo;'+p.varB.concept+'&rdquo;</div><div class="var-desc">'+p.varB.desc+'</div><div class="var-hero"><i class="ti ti-star"></i>Hero: '+p.varB.hero+'</div><div class="var-metrics"><div class="var-metric"><div class="var-metric-val">'+p.varB.revenue+'</div><div class="var-metric-lbl">Proj. Revenue</div></div><div class="var-metric"><div class="var-metric-val">'+p.varB.conv+'</div><div class="var-metric-lbl">Proj. Conversion</div></div></div></div>'
+    +'</div>'
+    +'<div class="exp-summary"><div class="exp-summary-title">Campaign Summary</div>'
+    +'<div class="exp-sum-groups"><div class="exp-sum-group ga"><i class="ti ti-alert-triangle"></i>Group A: '+p.varA.size+' customers</div><div class="exp-sum-group gb"><i class="ti ti-trending-up"></i>Group B: '+p.varB.size+' customers</div></div>'
+    +'<div class="exp-summary-grid"><div class="exp-sum-item"><div class="exp-sum-val">'+p.audienceSize+'</div><div class="exp-sum-lbl">'+p.audienceLabel+'</div></div><div class="exp-sum-item"><div class="exp-sum-val">'+p.campRevenue+'</div><div class="exp-sum-lbl">Expected Revenue</div></div><div class="exp-sum-item"><div class="exp-sum-val">'+p.campConv+'</div><div class="exp-sum-lbl">Expected Conversion</div></div></div>'
+    +'<div class="ai-conf" style="margin-bottom:12px"><span style="font-size:10px;color:var(--color-text-tertiary);white-space:nowrap">AI Confidence</span><div class="ai-conf-bar"><div class="ai-conf-fill" style="width:'+confNum+'%"></div></div><span>'+p.campConf+'</span></div>'
+    +'<button class="submit-btn" onclick="handleSubmit()">Submit to Marketing for Review</button>'
+    +'</div>'
+    +'<div class="exp-footer"><button class="exp-footer-btn" onclick="this.closest(\'.exp-modal-ov\').remove()">Close</button></div>'
+    +'</div>';
+  document.getElementById('shell').appendChild(ov);
+}
+
+function handleSubmit(){
+  var ov=document.querySelector('.exp-modal-ov');if(ov)ov.remove();
+  showToast('Campaign submitted for marketing review. Your team will approve both variants before anything sends.',5000);
+  logAdd('Campaign submitted to marketing for review','trigger');
+}
+
+function renderCampaignDraft(p){
+  var cp=document.getElementById('campaign-panel');
+  cp.innerHTML='<div class="bottom-hdr"><i class="ti ti-chart-bar" style="font-size:13px;color:var(--color-text-tertiary)"></i>Campaign Intelligence</div>'
+    +'<div class="bottom-scroll"><div class="camp-card"><span class="camp-badge draft-b">Draft</span>'
+    +'<div class="camp-title">'+p.campTitle+'</div>'
+    +'<div class="camp-audience"><i class="ti ti-users"></i>'+p.audienceSize+' '+p.audienceLabel+'</div>'
+    +'<div class="camp-opp-label">'+p.campOppLabel+'</div>'
+    +'<div class="camp-opp">'+p.campOpp+'</div>'
+    +'<div class="camp-prod-lbl">Recommended products</div>'
+    +'<ul class="camp-prod-list">'+p.campProds.map(function(n){return'<li><i class="ti ti-circle-dot"></i>'+n+'</li>'}).join('')+'</ul>'
+    +'<div class="camp-metrics"><div class="metric-box"><div class="metric-val" style="color:var(--color-text-tertiary)">--</div><div class="metric-lbl">Proj. Revenue</div></div><div class="metric-box"><div class="metric-val" style="color:var(--color-text-tertiary)">--</div><div class="metric-lbl">Proj. Conversion</div></div></div>'
+    +campStatusHTML(true)
+    +'<button class="explore-btn" disabled>Explore Campaigns</button></div></div>';
+}
+
+function renderCampaignFinal(p){
+  var cp=document.getElementById('campaign-panel');
+  cp.innerHTML='<div class="bottom-hdr"><i class="ti ti-chart-bar" style="font-size:13px;color:var(--color-text-tertiary)"></i>Campaign Intelligence</div>'
+    +'<div class="bottom-scroll"><div class="camp-card">'
+    +'<div class="camp-title">'+p.campTitle+'</div>'
+    +'<div class="camp-audience"><i class="ti ti-users"></i>'+p.audienceSize+' '+p.audienceLabel+'</div>'
+    +'<div class="camp-opp-label">'+p.campOppLabel+'</div>'
+    +'<div class="camp-opp">'+p.campOpp+'</div>'
+    +'<div class="camp-prod-lbl">Recommended products</div>'
+    +'<ul class="camp-prod-list">'+buildProdListHTML(p.campProds)+'</ul>'
+    +'<div class="camp-metrics"><div class="metric-box"><div class="metric-val">'+p.campRevenue+'</div><div class="metric-lbl">Proj. Revenue</div></div><div class="metric-box"><div class="metric-val">'+p.campConv+'</div><div class="metric-lbl">Proj. Conversion</div></div></div>'
+    +campStatusHTML(false)
+    +'<button class="explore-btn" onclick="showExploreCampaigns()">Explore Campaigns</button></div></div>';
+}
+
+function renderDetail(p){
+  var dp=document.getElementById('detail-panel');
+  if(!p){dp.innerHTML='';return;}
+  var segHTML=p.segments.map(function(s){
+    return'<div class="seg-item"><div class="seg-check">&#10003;</div><span>'+s.label+'</span><span class="seg-audience">'+s.size+'</span></div>';
+  }).join('');
+  segHTML+='<div class="seg-intersection"><i class="ti ti-git-merge"></i>'+p.intersection.label+' &rarr; <strong>'+p.intersection.size+'</strong></div>';
+  var sfHTML=p.safety.map(function(s){
+    return'<div class="sf-item '+(s.ok?'ok':'gap')+'"><i class="ti '+(s.ok?'ti-check':'ti-alert-triangle')+'"></i>'+s.n+(s.ok?' (owned)':'')+'</div>';
+  }).join('');
+  var purchHTML=p.purchases.map(function(x){
+    return'<div class="pur-row"><span>'+x.n+'</span><span class="pdate">'+x.d+'</span></div>';
+  }).join('');
+  dp.innerHTML='<div class="det-name">'+p.name+'</div><div class="det-cat">'+p.category+'</div>'
+    +'<div class="pills"><span class="pill">'+p.age+' yrs</span><span class="pill">'+p.loc+'</span><span class="pill-ltv">LTV '+p.ltv+'</span></div>'
+    +'<div class="sec-lbl">Segments</div>'+segHTML
+    +'<div class="sec-lbl">Purchase history</div>'+purchHTML
+    +'<div class="sec-lbl">Safety checklist</div>'+sfHTML;
+}
+
+function navigateToRecommendedProduct(productId,productCat){
+  var modal=document.querySelector('.modal-ov');if(modal)modal.remove();
+  if(currentCat!==productCat){
+    document.querySelectorAll('.nav-cat').forEach(function(n){n.classList.toggle('active',n.dataset.cat===productCat)});
+    currentCat=productCat;renderProducts(productCat,productId);
+  } else {
+    clearCardHighlights();lastViewedId=productId;
+    var card=document.querySelector('.pcard[data-id="'+productId+'"]');
+    if(card){card.classList.add('nav-highlight');card.scrollIntoView({behavior:'smooth',block:'nearest'});}
+  }
+  logAdd('Navigated to recommended product','trigger');
+}
+
+function buildModal(firstName,hasSafetyGap,msg,topSale,topProd,productId,productCat){
+  var bClass=hasSafetyGap?'safety':'gear',bLabel=hasSafetyGap?'Safety alert':'Gear recommendation',bIcon=hasSafetyGap?'ti-alert-triangle':'ti-star';
+  var recName=msg.recName||(topProd?topProd.name:'')||'';
+  var recTag=msg.recTag||(topSale?topSale.tag:'')|| (topProd?topProd.desc:'')||'';
+  var recSale=msg.recSalePrice||(topSale?topSale.salePrice:'')||'';
+  var recWas=msg.recWasPrice||(topProd?topProd.price:'')||'';
+  var recPct=msg.recPct||(topSale?topSale.pct+'% off':'')||'';
+  var hook=msg.hook||'Hey '+firstName+'.';
+  var title=msg.title||'For you we recommend';
+  var cta=msg.cta||'See this item';
+  var pricingHtml=recSale?('<div class="mrec-pricing"><span class="mrec-sale">'+recSale+'</span><span class="mrec-pct">'+recPct+'</span>'+(recWas?'<span class="mrec-was">'+recWas+'</span>':'')+'</div>'):'';
+  return'<button class="mclose" onclick="this.closest(\'.modal-ov\').remove()"><i class="ti ti-x"></i></button>'
+    +'<span class="mbadge '+bClass+'"><i class="ti '+bIcon+'" style="font-size:10px"></i>'+bLabel+'</span>'
+    +'<div class="mhook">'+hook+'</div><div class="mtitle">'+title+'</div>'
+    +'<div class="mrec" id="modal-rec-box" role="button" tabindex="0">'
+    +'<div class="mrec-hint"><i class="ti ti-arrow-right" style="font-size:9px"></i> tap to view</div>'
+    +'<div class="mrec-name">'+recName+'</div><div class="mrec-tag">'+recTag+'</div>'+pricingHtml
+    +'</div>'
+    +'<div class="mactions">'
+    +'<button class="mbtn primary" onclick="navigateToRecommendedProduct(\''+productId+'\',\''+productCat+'\')">'+cta+'</button>'
+    +'<button class="mbtn" onclick="this.closest(\'.modal-ov\').remove()">No thanks</button>'
+    +'</div>';
+}
+
+function fireModal(){
+  modalFired=true;document.getElementById('hint').textContent='';
+  var p=activePersona;
+  var hasSafetyGap=p.safety.some(function(s){return!s.ok});
+  var missingS=p.safety.filter(function(s){return!s.ok}).map(function(s){return s.n});
+  var cartNames=sessionEvents.filter(function(e){return e.t==='cart'}).map(function(e){return e.n});
+  var viewNames=sessionEvents.filter(function(e){return e.t==='view'}).map(function(e){return e.n});
+  var catSales=SALES[p.cat]||[],topSale=catSales[0]||null;
+  var topProd=topSale?PRODUCTS[p.cat].find(function(x){return x.id===topSale.id}):null;
+  var productId=topProd?topProd.id:'',productCat=p.cat,firstName=p.name.split(' ')[0];
+  var saleLines=catSales.map(function(s){var pr=PRODUCTS[p.cat].find(function(x){return x.id===s.id});return pr?pr.name+': now '+s.salePrice+' ('+s.pct+'% off, was '+pr.price+')':''}).filter(Boolean).join('; ');
+  var shell=document.getElementById('shell');
+  var ov=document.createElement('div');ov.className='modal-ov';
+  ov.innerHTML='<div class="mbox"><div class="thinking"><i class="ti ti-robot"></i>&nbsp;Reading '+firstName+'\'s profile...</div></div>';
+  shell.appendChild(ov);
+  logAdd('Personalized offer generating for '+firstName,'trigger');
+  var prompt='You are REI\'s personalization AI. Reply ONLY with valid JSON, no markdown.\nCustomer: '+p.name+', age '+p.age+', '+p.loc+'. Category: '+p.category+'. Owned: '+p.purchases.map(function(x){return x.n}).join(', ')+'. Browsed: '+(viewNames.join(', ')||'browsing')+'. Cart: '+(cartNames.join(', ')||'nothing')+'. Gap: '+p.gearGap+'. '+(hasSafetyGap?'Safety gap: missing '+missingS.join(' and '):'Safety: fully equipped')+'. Sales: '+(saleLines||'none')+'.\nFields: hook ("Hey '+firstName+'." + punchy sentence 10 words max), title (exactly "For you we recommend"), recName, recTag (5-6 words), recSalePrice, recWasPrice, recPct, cta (3-4 words).\n{"hook":"...","title":"For you we recommend","recName":"...","recTag":"...","recSalePrice":"...","recWasPrice":"...","recPct":"...","cta":"..."}';
+  fetch('https://api.anthropic.com/v1/messages',{
+    method:'POST',
+    headers:{'Content-Type':'application/json','x-api-key':API_KEY,'anthropic-version':'2023-06-01','anthropic-dangerous-allow-browser':'true'},
+    body:JSON.stringify({model:'claude-sonnet-4-6',max_tokens:400,messages:[{role:'user',content:prompt}]})
+  })
+  .then(function(r){return r.json()})
+  .then(function(data){
+    var raw=data.content&&data.content.find(function(b){return b.type==='text'});raw=raw?raw.text:'{}';
+    var msg={};try{msg=JSON.parse(raw.replace(/```json|```/g,'').trim())}catch(e){}
+    ov.querySelector('.mbox').innerHTML=buildModal(firstName,hasSafetyGap,msg,topSale,topProd,productId,productCat);
+    var rb=document.getElementById('modal-rec-box');
+    if(rb)rb.addEventListener('click',function(){navigateToRecommendedProduct(productId,productCat)});
+    renderCampaignFinal(p);
+    logAdd('Offer delivered for '+firstName,'trigger');
+  })
+  .catch(function(){
+    var fb={hook:'Hey '+firstName+'. Here\'s something for your kit.',title:'For you we recommend',recName:topProd?topProd.name:'',recTag:topSale?topSale.tag:(topProd?topProd.desc:''),recSalePrice:topSale?topSale.salePrice:'',recWasPrice:topProd?topProd.price:'',recPct:topSale?topSale.pct+'% off':'',cta:'See this item'};
+    ov.querySelector('.mbox').innerHTML=buildModal(firstName,hasSafetyGap,fb,topSale,topProd,productId,productCat);
+    var rb=document.getElementById('modal-rec-box');
+    if(rb)rb.addEventListener('click',function(){navigateToRecommendedProduct(productId,productCat)});
+    renderCampaignFinal(p);
+    logAdd('Offer delivered for '+firstName,'trigger');
+  });
+}
+
+function clearCardHighlights(){
+  document.querySelectorAll('.pcard.selected:not(.incart)').forEach(function(c){c.classList.remove('selected')});
+  document.querySelectorAll('.pcard.nav-highlight').forEach(function(c){c.classList.remove('nav-highlight')});
+}
+
+function renderProducts(cat,highlightId){
+  highlightId=highlightId||null;currentCat=cat;
+  var m=document.getElementById('product-panel');
+  var names={camping:'Camping',cycling:'Cycling',watersports:'Water Sports',snow:'Snow Sports'};
+  var subs={camping:'Packs, shelter, cooking, and everything for your next night out',cycling:'Road, trail, and everything in between',watersports:'Kayaks, paddles, and open-water essentials',snow:'Backcountry touring, resort, and alpine gear'};
+  var prods=PRODUCTS[cat]||[];
+  var html='<div class="cat-title">'+names[cat]+'</div><div class="cat-sub">'+subs[cat]+'</div><div class="pgrid">';
+  prods.forEach(function(pr){
+    var sale=(SALES[cat]||[]).find(function(s){return s.id===pr.id});
+    var isCart=cartProducts.has(pr.id),isSel=lastViewedId===pr.id&&!isCart&&!highlightId,isHL=highlightId===pr.id&&!isCart;
+    html+='<div class="pcard'+(isCart?' incart':isHL?' nav-highlight':isSel?' selected':'')+'" data-id="'+pr.id+'" data-name="'+pr.name+'">'
+      +'<div class="pcard-icon" style="color:'+(pr.safety?'#A32D2D':'var(--color-text-tertiary)')+'">'+ICONS[pr.icon]+'</div>'
+      +(sale?'<div class="sale-badge">'+sale.pct+'% off</div>':'')
+      +'<div class="pname-lg">'+pr.name+'</div>'
+      +'<div class="pdesc">'+pr.desc+(pr.safety?' <span style="color:#A32D2D;font-size:9px;font-weight:500">safety</span>':'')+'</div>'
+      +'<div class="price-row"><span class="price-now">'+(sale?sale.salePrice:pr.price)+'</span>'+(sale?'<span class="price-was">'+pr.price+'</span>':'')+'</div>'
+      +'<button class="cart-btn'+(isCart?' incar':'')+'" data-id="'+pr.id+'" data-name="'+pr.name+'">'+(isCart?'In cart':'+ Add to cart')+'</button>'
+      +'</div>';
+  });
+  html+='</div>';m.innerHTML=html;
+  if(highlightId)setTimeout(function(){var c=document.querySelector('.pcard[data-id="'+highlightId+'"]');if(c)c.scrollIntoView({behavior:'smooth',block:'nearest'})},50);
+  m.querySelectorAll('.pcard').forEach(function(card){
+    card.addEventListener('click',function(e){
+      if(e.target.classList.contains('cart-btn'))return;
+      if(!activePersona)return;
+      var id=card.dataset.id,name=card.dataset.name;
+      clearCardHighlights();lastViewedId=id;
+      if(!cartProducts.has(id))card.classList.add('selected');
+      if(!sessionEvents.find(function(ev){return ev.t==='view'&&ev.id===id})){
+        sessionEvents.push({t:'view',n:name,id:id});
+        logAdd('Viewed: '+name,'view');
+        checkTrigger();
+      }
+    });
+  });
+  m.querySelectorAll('.cart-btn').forEach(function(btn){
+    btn.addEventListener('click',function(e){
+      e.stopPropagation();if(!activePersona)return;
+      var id=btn.dataset.id,name=btn.dataset.name;
+      if(!cartProducts.has(id)){
+        cartProducts.add(id);clearCardHighlights();lastViewedId=null;
+        btn.textContent='In cart';btn.classList.add('incar');
+        btn.closest('.pcard').classList.remove('selected','nav-highlight');
+        btn.closest('.pcard').classList.add('incart');
+        sessionEvents.push({t:'cart',n:name,id:id});
+        logAdd('Added to cart: '+name,'cart');checkTrigger();
+      }
+    });
+  });
+}
+
+function renderPersonas(){
+  var list=document.getElementById('persona-list');list.innerHTML='';
+  PERSONAS.forEach(function(p){
+    var row=document.createElement('div');row.className='persona-row';
+    row.innerHTML='<div class="persona-trigger" data-id="'+p.id+'">'
+      +'<div class="av" style="background:'+p.ab+';color:'+p.ac+'">'+p.initials+'</div>'
+      +'<div style="flex:1;min-width:0"><div class="pname">'+p.name+'</div><div class="ptag">'+p.category+'</div></div>'
+      +'<i class="ti ti-chevron-right chev"></i>'
+      +'</div>';
+    row.querySelector('.persona-trigger').addEventListener('click',function(){
+      var isActive=activePersona&&activePersona.id===p.id;
+      document.querySelectorAll('.persona-trigger').forEach(function(t){t.classList.remove('active')});
+      if(isActive){
+        activePersona=null;sessionEvents=[];modalFired=false;startTime=null;lastViewedId=null;cartProducts.clear();thirdProductAdded=false;dynamicProductName=null;
+        renderDetail(null);
+        document.getElementById('log-entries').innerHTML='<div class="log-entry"><span class="lt">--:--</span><i class="ti ti-activity" style="font-size:13px;color:var(--color-text-tertiary)"></i><span class="lmsg">Waiting for session...</span></div>';
+        document.getElementById('hint').textContent='';
+        document.getElementById('campaign-panel').innerHTML='<div class="bottom-hdr"><i class="ti ti-chart-bar" style="font-size:13px;color:var(--color-text-tertiary)"></i>Campaign Intelligence</div><div class="bottom-scroll"><div class="camp-empty">Select a customer to see campaign intelligence</div></div>';
+        document.querySelectorAll('.nav-cat').forEach(function(n){n.classList.toggle('active',n.dataset.cat==='camping')});
+        document.getElementById('product-panel').innerHTML='<div class="empty-st"><i class="ti ti-user-search"></i><span>Select a customer to start</span></div>';
+        return;
+      }
+      activePersona=p;sessionEvents=[];modalFired=false;startTime=Date.now();lastViewedId=null;cartProducts.clear();thirdProductAdded=false;dynamicProductName=null;
+      row.querySelector('.persona-trigger').classList.add('active');
+      renderDetail(p);
+      renderCampaignDraft(p);
+      document.getElementById('log-entries').innerHTML='';
+      logAdd('Session started: '+p.name+' ('+p.category+')','session');
+      document.querySelectorAll('.nav-cat').forEach(function(n){n.classList.toggle('active',n.dataset.cat===p.cat)});
+      renderProducts(p.cat);
+      sessionEvents.push({t:'nav',n:p.category});
+      logAdd('Browsing '+p.category,'view');
+      updateHint();
+    });
+    list.appendChild(row);
+  });
+}
+
+document.querySelectorAll('.nav-cat').forEach(function(nc){
+  nc.addEventListener('click',function(){
+    document.querySelectorAll('.nav-cat').forEach(function(n){n.classList.remove('active')});
+    nc.classList.add('active');var cat=nc.dataset.cat;lastViewedId=null;
+    renderProducts(cat);
+    if(activePersona){sessionEvents.push({t:'nav',n:nc.textContent.trim()});logAdd('Browsed to '+nc.textContent.trim(),'view');checkTrigger();}
+  });
+});
+</script>
+</body>
+</html>
